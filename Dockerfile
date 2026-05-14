@@ -3,8 +3,8 @@ FROM alpine:3.23
 LABEL maintainer="Arkhala"
 LABEL description="Minimal Docker image for Psiphon Conduit (ssmirr community fork) - Shir o Khorshid edition"
 
-# Latest ssmirr/conduit (commit tag - update when new releases come)
-ARG VERSION=e421eff
+# Latest ssmirr/conduit commit as of May 2026 (d8522a8)
+ARG VERSION=d8522a8
 
 RUN apk add --no-cache ca-certificates curl && \
     curl -fsSL -o /usr/local/bin/conduit \
@@ -12,6 +12,7 @@ RUN apk add --no-cache ca-certificates curl && \
     chmod +x /usr/local/bin/conduit && \
     apk del curl
 
+# Shir o Khorshid enabled by default via --compartment shirokhorshid
 ENTRYPOINT ["/bin/sh", "-c", \
     "exec conduit start -b \"${BANDWIDTH:-50}\" -m \"${MAXCLIENTS:-80}\" \
     ${COMPARTMENT:+--compartment \"${COMPARTMENT}\"} \
